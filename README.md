@@ -47,6 +47,18 @@ We have a wide range of documentation on how to use Actual, this is all availabl
 
 Actual is a community driven product. Learn more about [contributing to Actual](https://actualbudget.org/docs/contributing/).
 
+### Development Setup with Docker
+
+To run the application locally for development using Docker:
+
+1. Clone the repository and navigate to the project directory
+2. Run the application using:
+```bash
+docker compose -f docker-compose.dev.yml up --build
+```
+
+This will start both the sync server (available at http://localhost:5006) and the desktop development environment (available at https://localhost:3001).
+
 ### Code structure
 
 The Actual app is split up into a few packages:

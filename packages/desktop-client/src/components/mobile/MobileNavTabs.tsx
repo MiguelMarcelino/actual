@@ -12,6 +12,7 @@ import { useSpring, animated, config } from 'react-spring';
 import { useResponsive } from '@actual-app/components/hooks/useResponsive';
 import {
   SvgAdd,
+  SvgChartBar,
   SvgCog,
   SvgPiggyBank,
   SvgReports,
@@ -114,6 +115,12 @@ export function MobileNavTabs() {
       path: '/reports',
       style: navTabStyle,
       Icon: SvgReports,
+    },
+    {
+      name: t('Stocks'),
+      path: '/stocks',
+      style: navTabStyle,
+      Icon: SvgChartBar,
     },
     {
       name: t('Schedules (Soon)'),

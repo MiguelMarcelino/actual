@@ -3,10 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
 import {
+  SvgBolt,
+  SvgCalendar,
+  SvgChart,
+  SvgChartBar,
   SvgCheveronDown,
   SvgCheveronRight,
   SvgCog,
   SvgCreditCard,
+  SvgPiggyBank,
   SvgReports,
   SvgStoreFront,
   SvgTuning,
@@ -47,6 +52,11 @@ export function PrimaryButtons() {
     <View style={{ flexShrink: 0 }}>
       <Item title={t('Budget')} Icon={SvgWallet} to="/budget" />
       <Item title={t('Reports')} Icon={SvgReports} to="/reports" />
+      <Item
+        title={t('Stocks')}
+        Icon={SvgChartBar}
+        to="/stocks"
+      />
       <Item title={t('Schedules')} Icon={SvgCalendar3} to="/schedules" />
       <Item
         title={t('More')}
@@ -72,7 +82,7 @@ export function PrimaryButtons() {
           {isUsingServer && (
             <SecondaryItem
               title={t('Bank Sync')}
-              Icon={SvgCreditCard}
+              Icon={SvgPiggyBank}
               to="/bank-sync"
               indent={15}
             />

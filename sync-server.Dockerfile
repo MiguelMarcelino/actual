@@ -1,7 +1,16 @@
-FROM node:18-bookworm AS deps
+FROM node:20-bookworm AS deps
 
-# Install required packages
-RUN apt-get update && apt-get install -y openssl
+# Install required packages and build dependencies
+RUN apt-get update && apt-get install -y \
+    openssl \
+    build-essential \
+    python3 \
+    pkg-config \
+    libsqlite3-dev \
+    g++ \
+    make \
+    cmake \
+    git
 
 WORKDIR /app
 
@@ -20,28 +29,42 @@ COPY packages/sync-server/package.json packages/sync-server/package.json
 COPY ./bin/package-browser ./bin/package-browser
 
 RUN yarn install
+# Rebuild native modules for the container environment
+RUN yarn rebuild-node
 
 FROM deps AS builder
 
 WORKDIR /app
 
 COPY packages/ ./packages/
-RUN yarn build:server
+# First rebuild the native modules to ensure they're compatible with the container environment
+RUN yarn rebuild-node
+
+# Build server components
+RUN NODE_ENV=production yarn build:server
 
 # Focus the workspaces in production mode (including @actual-app/web you just built)
 RUN yarn workspaces focus @actual-app/sync-server --production
+
+# Rebuild native modules again for production
+RUN yarn rebuild-node
 
 # Remove symbolic links for @actual-app/web and @actual-app/sync-server
 RUN rm -rf ./node_modules/@actual-app/web ./node_modules/@actual-app/sync-server
 
 # Copy in the @actual-app/web artifacts manually, so we don't need the entire packages folder
 COPY ./packages/desktop-client/package.json ./node_modules/@actual-app/web/package.json
-RUN cp -r ./packages/desktop-client/build ./node_modules/@actual-app/web/build
+RUN mkdir -p ./node_modules/@actual-app/web/build && \
+    cp -r ./packages/desktop-client/build ./node_modules/@actual-app/web/ || true
 
-FROM node:18-bookworm-slim AS prod
+FROM node:20-bookworm-slim AS prod
 
-# Minimal runtime dependencies
-RUN apt-get update && apt-get install -y tini && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+# Minimal runtime dependencies including SQLite for the database
+RUN apt-get update && apt-get install -y \
+    tini \
+    libsqlite3-0 \
+    openssl \
+    && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # Create a non-root user
 ARG USERNAME=actual

@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  sync-server:
+    build:
+      context: .
+      dockerfile: sync-server.Dockerfile
+    ports:
+      - '5006:5006'
+    environment:
+      - ACTUAL_PORT=5006
+    volumes:
+      - ./actual-data:/data
+    healthcheck:
+      test: ['CMD-SHELL', 'node src/scripts/health-check.js']
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    restart: unless-stopped
+
+  desktop-dev:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: actual-development
+    environment:
+      - HTTPS=true
+      - NODE_ENV=development
+    ports:
+      - '3001:3001'
+    volumes:
+      - .:/app
+    depends_on:
+      - sync-server 
