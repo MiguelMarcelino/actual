@@ -34,6 +34,7 @@ import { useMultiuserEnabled } from './ServerContext';
 import { Settings } from './settings';
 import { FloatableSidebar } from './sidebar';
 import { Titlebar } from './Titlebar';
+import { StocksPage } from './stocks/StocksPage';
 
 import { sync } from '@desktop-client/app/appSlice';
 import { ProtectedRoute } from '@desktop-client/auth/ProtectedRoute';
@@ -239,6 +240,7 @@ export function FinancesApp() {
                 />
 
                 <Route path="/reports/*" element={<Reports />} />
+                <Route path="/stocks" element={<StocksPage />} />
 
                 <Route
                   path="/budget"

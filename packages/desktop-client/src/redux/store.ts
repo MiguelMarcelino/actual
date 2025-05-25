@@ -35,6 +35,10 @@ import {
   reducer as queriesSliceReducer,
 } from '@desktop-client/queries/queriesSlice';
 import {
+  name as stocksSliceName,
+  reducer as stocksSliceReducer,
+} from '../stocks/stocksSlice';
+import {
   name as usersSliceName,
   reducer as usersSliceReducer,
 } from '@desktop-client/users/usersSlice';
@@ -47,6 +51,7 @@ const rootReducer = combineReducers({
   [notificationsSliceName]: notificationsSliceReducer,
   [prefsSliceName]: prefsSliceReducer,
   [queriesSliceName]: queriesSliceReducer,
+  [stocksSliceName]: stocksSliceReducer,
   [usersSliceName]: usersSliceReducer,
 });
 
