@@ -18,6 +18,7 @@ import {
   SvgStoreFront,
   SvgTuning,
   SvgWallet,
+  SvgChart,
 } from '@actual-app/components/icons/v1';
 import { SvgCalendar3 } from '@actual-app/components/icons/v2';
 import { styles } from '@actual-app/components/styles';
@@ -114,6 +115,12 @@ export function MobileNavTabs() {
       path: '/reports',
       style: navTabStyle,
       Icon: SvgReports,
+    },
+    {
+      name: t('Stocks'),
+      path: '/stocks',
+      style: navTabStyle,
+      Icon: SvgChart,
     },
     {
       name: t('Schedules (Soon)'),
