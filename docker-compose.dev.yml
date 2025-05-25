@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   sync-server:
-    image: docker.io/actualbudget/actual-server:latest
+    build:
+      context: .
+      dockerfile: sync-server.Dockerfile
     ports:
       - '5006:5006'
     environment:
