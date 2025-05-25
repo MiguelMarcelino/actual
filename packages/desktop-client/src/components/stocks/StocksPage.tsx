@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from '@actual-app/components/view';
 import { theme } from '@actual-app/components/theme';
-import { Button } from '@actual-app/components/common/Button';
-import { Text } from '@actual-app/components/common/Text';
-import { Page } from '@actual-app/components/Page';
+import { Button } from '@actual-app/components/button';
+import { Text } from '@actual-app/components/text';
+import { Page } from '../Page';
 import { useAccounts } from '@desktop-client/hooks/useAccounts';
 import { send } from 'loot-core/platform/client/fetch';
 import { useDispatch, useSelector } from '@desktop-client/redux';
@@ -61,9 +61,11 @@ export function StocksPage() {
   };
 
   return (
-    <Page>
+    <Page
+      header={t('Stocks')}
+      style={{ backgroundColor: theme.pageBackground }}
+    >
       <View style={{ padding: 20 }}>
-        <Text style={{ fontSize: 24, marginBottom: 20 }}>{t('Stocks')}</Text>
         <View style={{ flexDirection: 'row', marginBottom: 20 }}>
           <input
             type="text"
@@ -74,13 +76,12 @@ export function StocksPage() {
               padding: 8,
               marginRight: 10,
               borderRadius: 4,
-              border: `1px solid ${theme.buttonBorder}`
+              border: `1px solid ${theme.buttonMenuBorder}`
             }}
           />
           <Button
-            type="primary"
             onClick={addToWatchlist}
-            disabled={loading || !searchSymbol}
+            isDisabled={loading || !searchSymbol}
           >
             {loading ? t('Loading...') : t('Add to Watchlist')}
           </Button>
@@ -111,7 +112,7 @@ export function StocksPage() {
                 <Text>${stock.price.toFixed(2)}</Text>
                 <Text
                   style={{
-                    color: stock.change >= 0 ? theme.positiveNumber : theme.negativeNumber
+                    color: stock.change >= 0 ? theme.formInputText : theme.errorText
                   }}
                 >
                   {stock.change >= 0 ? '+' : ''}{stock.change.toFixed(2)} ({stock.changePercent.toFixed(2)}%)
@@ -124,7 +125,7 @@ export function StocksPage() {
                     marginRight: 10,
                     padding: 5,
                     borderRadius: 4,
-                    border: `1px solid ${theme.buttonBorder}`
+                    border: `1px solid ${theme.buttonMenuBorder}`
                   }}
                   onChange={e => {
                     const shares = window.prompt(t('Enter number of shares:'));
