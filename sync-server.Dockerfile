@@ -1,4 +1,4 @@
-FROM node:18-bookworm AS deps
+FROM node:20-bookworm AS deps
 
 # Install required packages and build dependencies
 RUN apt-get update && apt-get install -y \
@@ -57,7 +57,7 @@ COPY ./packages/desktop-client/package.json ./node_modules/@actual-app/web/packa
 RUN mkdir -p ./node_modules/@actual-app/web/build && \
     cp -r ./packages/desktop-client/build ./node_modules/@actual-app/web/ || true
 
-FROM node:18-bookworm-slim AS prod
+FROM node:20-bookworm-slim AS prod
 
 # Minimal runtime dependencies including SQLite for the database
 RUN apt-get update && apt-get install -y \
